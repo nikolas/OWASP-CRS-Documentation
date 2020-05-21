@@ -25,7 +25,7 @@ A very basic rule looks as follows:
 
 The preceding rule will take each HTTP Request and obtain just the URI portion. From there is will transform the URI value to lowercase. Subsequently it will check to see if that transformed value is equal to exactly '/index.php'. If it is Modsecurity will deny the request, that is, it will stop processing further rules and intercept the request.
 
-As can be seen from the previous explaination, one of the unique things about the SecRule directive is that each SecRule listed in your configuration is evaluated on each transaction. All the other ModSecurity directives are only evaluated at startup.
+As can be seen from the previous explanation, one of the unique things about the SecRule directive is that each SecRule listed in your configuration is evaluated on each transaction. All the other ModSecurity directives are only evaluated at startup.
 
 Clearly, if this was all there was to SecRules it wouldn't be very powerful. In fact, there is a lot more. So much more that it is in fact a full fledged language. The best place to find out about all the possible capabilities is via the `ModSecurity Reference Manual <https://github.com/SpiderLabs/ModSecurity/wiki/Reference-Manual>`_. The following is just a glimpse of its capabilities:
 

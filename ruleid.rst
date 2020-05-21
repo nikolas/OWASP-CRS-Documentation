@@ -67,7 +67,7 @@ You can use the above file along with a script similar to the one below to updat
 	parser.add_argument("-f", "--file", required=True, action="store", dest="fname", help="the file to be renumbered")
 	args = parser.parse_args()
 	if(not os.path.isfile((args.fname).encode('utf8'))):
-		sys.stderr.write("We were unable to find the file you were trying to upate the ID numbers in, please check your path\n")
+		sys.stderr.write("We were unable to find the file you were trying to update the ID numbers in, please check your path\n")
 		sys.exit(1)
 	fcontent = ""
 	try:

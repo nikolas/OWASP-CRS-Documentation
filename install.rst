@@ -17,7 +17,7 @@ ModSecurity comes in MANY different version with support for a multitude of Oper
 Microsoft IIS with ModSecurity 2.x
 ----------------------------------
 
-The most common deployment of ModSecurity for IIS is via the pre-packaged MSI installer, available at https://www.modsecurity.org/download.html. If you compiled or are looking to compile ModSecurity for IIS this documentation isn't for you. If you used this package to install ModSecurity 2.x on IIS (tested on IIS 7-10), than your configuration files are located within C:\\Program Files\\ModSecurity IIS\\ (or Program Files(x86) depending on your configuration). The inital configuration file, that is the one that the remainder are included from, is modsecurity_iis.conf. This file will be parsed by the ModSecurity for both ModSecurity and 'Include' directives.
+The most common deployment of ModSecurity for IIS is via the pre-packaged MSI installer, available at https://www.modsecurity.org/download.html. If you compiled or are looking to compile ModSecurity for IIS this documentation isn't for you. If you used this package to install ModSecurity 2.x on IIS (tested on IIS 7-10), than your configuration files are located within C:\\Program Files\\ModSecurity IIS\\ (or Program Files(x86) depending on your configuration). The initial configuration file, that is the one that the remainder are included from, is modsecurity_iis.conf. This file will be parsed by the ModSecurity for both ModSecurity and 'Include' directives.
 
 By default all installations of ModSecurity without `SecRuleEngine <https://github.com/SpiderLabs/ModSecurity/wiki/Reference-Manual#SecRuleEngine>`_ declared will start in DetectionOnly mode. IIS, by default, explitcly declares `SecRuleEngine <https://github.com/SpiderLabs/ModSecurity/wiki/Reference-Manual#SecRuleEngine>`_ to be DetectionOnly within the included modsecurity.conf file. As a result any rule we make will only show up in the Windows Event Viewer by default. For our example we're going to turn on disruptive actions. To test we should add the following to the end of our modsecurity_iis.conf:
 
@@ -51,18 +51,18 @@ Apache 2.x with ModSecurity 2.x Packaged (RHEL)
 
 Many operating systems provide package managers in order to aid in the install of software packages and their associated dependencies. Even though ModSecurity is relatively straight forward to install, some people prefer using package managers due to their ease. It should be noted here that many package managers do not up date their releases very frequently, as a result it is quite likely that your distribution may be missing required features or possibly even have security vulnerabilities. Additionally, depending on your package/package manager your ModSecurity configuration will be laid out slightly different.
 
-On Fedora we will find that when you use 'dnf install mod_security' you will receive the base ModSecurity package. Apache's configuration files are split out within this environment such that there are different folders for the base config (etc/httpd/config/), user configuration (etc/httpd/conf.d/, and module configuration (/etc/httpd/conf.modules.d/). The Fedora ModSecurity 2.x package places the LoadModule and associated 'Include's within /etc/httpd/conf.modules.d/10-mod_security.conf. Additionally, it places some of the reccomended default rules in /etc/httpd/conf.d/mod_security.conf. It is this secondary configuration file that will setup the locations where you should add your rules. By default it reads in all config files from the /etc/httpd/modsecurity.d/ and /etc/httpd/modsecurity.d/activated_rules/ folder. To keep order I would reccomend testing this configuration by placing a rules.conf file within the activiated_rules folder. Within this rules.conf file add the following:
+On Fedora we will find that when you use 'dnf install mod_security' you will receive the base ModSecurity package. Apache's configuration files are split out within this environment such that there are different folders for the base config (etc/httpd/config/), user configuration (etc/httpd/conf.d/, and module configuration (/etc/httpd/conf.modules.d/). The Fedora ModSecurity 2.x package places the LoadModule and associated 'Include's within /etc/httpd/conf.modules.d/10-mod_security.conf. Additionally, it places some of the recommended default rules in /etc/httpd/conf.d/mod_security.conf. It is this secondary configuration file that will setup the locations where you should add your rules. By default it reads in all config files from the /etc/httpd/modsecurity.d/ and /etc/httpd/modsecurity.d/activated_rules/ folder. To keep order I would recommend testing this configuration by placing a rules.conf file within the activiated_rules folder. Within this rules.conf file add the following:
 
 .. code-block:: bash
 
     SecRuleEngine On
     SecRule ARGS:testparam "@contains test" "id:1234,deny,status:403,msg:'Our test rule has triggered'"
 
-Upon saving and restarting Apache (systemctl restart httpd.service) you should be able to navigate to a your local webserver. Once this is accomplished try passing the 'testparam' paramater with the value 'test' such as via the following URL:http://localhost/?testparam=test. You should receive a 403 Forbidden status. If you do congratulations, ModSecurity is ready for the OWASP CRS rules.
+Upon saving and restarting Apache (systemctl restart httpd.service) you should be able to navigate to a your local webserver. Once this is accomplished try passing the 'testparam' parameter with the value 'test' such as via the following URL:http://localhost/?testparam=test. You should receive a 403 Forbidden status. If you do congratulations, ModSecurity is ready for the OWASP CRS rules.
 
 Nginx with ModSecurity 2.x Compiled
 -----------------------------------
-ModSecurity 2.x currently doesn't support the new Nginx loadable modules. As a result, it is required that you compile Nginx from source with ModSecurity. For more information on how to do this see the ModSecurity documentaiton. Once ModSecurity is compiled in you will have to specify both 'ModSecurityEnabled' and 'ModSecurityConfig' within any location block where you want ModSecurity enabled. An example would look similar to below.
+ModSecurity 2.x currently doesn't support the new Nginx loadable modules. As a result, it is required that you compile Nginx from source with ModSecurity. For more information on how to do this see the ModSecurity documentation. Once ModSecurity is compiled in you will have to specify both 'ModSecurityEnabled' and 'ModSecurityConfig' within any location block where you want ModSecurity enabled. An example would look similar to below.
 
 .. code-block:: bash
 
@@ -78,7 +78,7 @@ Within this modsec_includes you may use the Include directive to include other f
     SecRuleEngine On
     SecRule ARGS:testparam "@contains test" "id:1234,deny,status:403,msg:'Our test rule has triggered'"
     
-Upon saving and restarting Nginx (./nginx -s reload) you should be able to navigate to a your local webserver. Once this is accomplished try passing the 'testparam' paramater with the value 'test' such as via the following URL:http://localhost/?testparam=test. You should receive a 403 Forbidden status. If you do congratulations, ModSecurity is ready for the OWASP CRS rules.
+Upon saving and restarting Nginx (./nginx -s reload) you should be able to navigate to a your local webserver. Once this is accomplished try passing the 'testparam' parameter with the value 'test' such as via the following URL:http://localhost/?testparam=test. You should receive a 403 Forbidden status. If you do congratulations, ModSecurity is ready for the OWASP CRS rules.
 
 
 Nginx with ModSecurity 3.x (libmodsecurity) Compiled
@@ -94,7 +94,7 @@ Now that you know where your rules belong typically we'll want to download the O
 
     git clone https://github.com/SpiderLabs/owasp-modsecurity-crs
 
-Typically you'll end up with a folder named something similar to 'owasp-modsecurity-crs'. From here the process is surprisingly simple. Because OWASP CRS is, at its core, a set of ModSecurity configuration files (\*.conf files) all you have to do is tell ModSecurity where these CRS configuration files reside and it will do MOST of the remaining work. To do this you must use the 'Include' directive. This include directive can be used in similar places to where we used our SecRule earlier. It should be noted that OWASP CRS should be included AFTER the ModSecurity configuration rules which are available via the ModSecurity repo (at https://github.com/SpiderLabs/ModSecurity/blob/master/modsecurity.conf-recommended) which should have been configured during your inital installation. These rules will configure ModSecurity options, such as SecRuleEngine that we used earlier. This configuration file should be reveiwed and modified as desired.
+Typically you'll end up with a folder named something similar to 'owasp-modsecurity-crs'. From here the process is surprisingly simple. Because OWASP CRS is, at its core, a set of ModSecurity configuration files (\*.conf files) all you have to do is tell ModSecurity where these CRS configuration files reside and it will do MOST of the remaining work. To do this you must use the 'Include' directive. This include directive can be used in similar places to where we used our SecRule earlier. It should be noted that OWASP CRS should be included AFTER the ModSecurity configuration rules which are available via the ModSecurity repo (at https://github.com/SpiderLabs/ModSecurity/blob/master/modsecurity.conf-recommended) which should have been configured during your initial installation. These rules will configure ModSecurity options, such as SecRuleEngine that we used earlier. This configuration file should be reviewed and modified as desired.
 
 Setup OWASP CRS
 =====================
@@ -113,7 +113,7 @@ For more information please see the page on :doc:`configuration`. Once you have 
 
     mv csr-setup.conf.example csr-setup.conf
 
-In addition to csr-setup.conf.example there are two other .example files within our repository. These files are: rules/REQUEST-00-LOCAL-WHITELIST.conf.example and rules/RESPONSE-99-EXCEPTIONS.conf.example. These files are designed to provide the rule maintainer the capability to modify rules (see :doc:`exceptions`) without breaking forward compatability with updates. As such you should rename these two files, removing the .example suffix. This will make it so that even when updates are installed they do not overwrite your custom updates. To rename the files in Linux one would use a command similar to the following:
+In addition to csr-setup.conf.example there are two other .example files within our repository. These files are: rules/REQUEST-00-LOCAL-WHITELIST.conf.example and rules/RESPONSE-99-EXCEPTIONS.conf.example. These files are designed to provide the rule maintainer the capability to modify rules (see :doc:`exceptions`) without breaking forward compatibility with updates. As such you should rename these two files, removing the .example suffix. This will make it so that even when updates are installed they do not overwrite your custom updates. To rename the files in Linux one would use a command similar to the following:
 
 .. code-block:: bash
 
@@ -129,7 +129,7 @@ If you were to look at the CRS files, you'd note there are quite a few .conf fil
 
 Includes for Apache
 -------------------
-Apache will include from the Apache Root directory (/etc/httpd/, /etc/apache2/, or /usr/local/apache2/ depending on the envirovment). Typically we reccomend following the Fedora practice of creating a folder specificlly for ModSecurity rules. In our example we have named this modsecurity.d and placed in within the root Apache directory. When using Apache we can use the wildcard notation to vastly simplify our rules. Simply copying our cloned directory to our modsecurity.d folder and specifying the appropertie include directives will allow us to install OWASP CRS. In the example below we have also included our modsecurity.conf file which includes reccomended configurations for ModSecurity
+Apache will include from the Apache Root directory (/etc/httpd/, /etc/apache2/, or /usr/local/apache2/ depending on the envirovment). Typically we recommend following the Fedora practice of creating a folder specificlly for ModSecurity rules. In our example we have named this modsecurity.d and placed in within the root Apache directory. When using Apache we can use the wildcard notation to vastly simplify our rules. Simply copying our cloned directory to our modsecurity.d folder and specifying the appropertie include directives will allow us to install OWASP CRS. In the example below we have also included our modsecurity.conf file which includes recommended configurations for ModSecurity
 
 .. code-block:: bash
 
@@ -141,7 +141,7 @@ Apache will include from the Apache Root directory (/etc/httpd/, /etc/apache2/, 
     
 Includes for Nginx
 -------------------
-Nginx will include from the Nginx conf directory (/usr/local/nginx/conf/ depending on the envirovment). Because only one 'ModSecurityConfig' directive can be specified within nginx.conf we reccomend naming that file modsec_includes.conf and including additional files from there. In the example below we copied our cloned owasp-modsecurity-crs folder into our Nginx configuration directory. From there we specifying the appropertie include directives which will include OWASP CRS when the server is restarted. In the example below we have also included our modsecurity.conf file which includes reccomended configurations for ModSecurity
+Nginx will include from the Nginx conf directory (/usr/local/nginx/conf/ depending on the envirovment). Because only one 'ModSecurityConfig' directive can be specified within nginx.conf we recommend naming that file modsec_includes.conf and including additional files from there. In the example below we copied our cloned owasp-modsecurity-crs folder into our Nginx configuration directory. From there we specifying the appropertie include directives which will include OWASP CRS when the server is restarted. In the example below we have also included our modsecurity.conf file which includes recommended configurations for ModSecurity
 
 .. code-block:: bash
 
@@ -319,7 +319,7 @@ Sometimes on IIS or Nginx users run into an instance where anamoly mode doesn't 
 
 Webserver returns error after CRS install
 -----------------------------------------
-This is likley due to a rule triggering. For instance in some cases a rule is enabled that prohibits access via an IP address. Depending on your  `SecDefaultAction <https://github.com/SpiderLabs/ModSecurity/wiki/Reference-Manual#SecDefaultAction>`_ and `SecRuleEngine <https://github.com/SpiderLabs/ModSecurity/wiki/Reference-Manual#SecRuleEngine>`_ configurations, this may result in a redirect loop or a status code. If this is the problem you are experiencing you should consult your error.log (or event viewer for IIS). From this location you can determine the offending rule and add an exception if neccessary see :doc:`exceptions`.
+This is likely due to a rule triggering. For instance in some cases a rule is enabled that prohibits access via an IP address. Depending on your  `SecDefaultAction <https://github.com/SpiderLabs/ModSecurity/wiki/Reference-Manual#SecDefaultAction>`_ and `SecRuleEngine <https://github.com/SpiderLabs/ModSecurity/wiki/Reference-Manual#SecRuleEngine>`_ configurations, this may result in a redirect loop or a status code. If this is the problem you are experiencing you should consult your error.log (or event viewer for IIS). From this location you can determine the offending rule and add an exception if necessary see :doc:`exceptions`.
 
 
 

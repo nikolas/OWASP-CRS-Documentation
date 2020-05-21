@@ -54,7 +54,7 @@ Within anamoly scoring mode we are implementing the concept of Collaborative Det
 Configuring Anomaly Scoring Mode
 --------------------------------
 
-The default mode in CRS 3.x is Anomaly Scoring mode, you can verify this is your mode by checking that the SecDefaultAction line in the csr-setup.conf file usees the pass action:
+The default mode in CRS 3.x is Anomaly Scoring mode, you can verify this is your mode by checking that the SecDefaultAction line in the csr-setup.conf file uses the pass action:
 
 .. code-block:: bash
 
@@ -213,7 +213,7 @@ When this rule is enabled, The rule within the rules/REQUEST-49-BLOCKING-EVALUAT
 		    SecRule TX:ANOMALY_SCORE_BLOCKING "@streq on" chain
 			    SecRule TX:/^\d+\-/ "(.*)"
 
-Notice that there is an explicit deny within this rule. This explitly listed disruptive action will override the default action of pass (within anomaly mode)and block the transaction. If you would like a different action to occur you would set it within the two BLOCKING-EVALUATION files. 
+Notice that there is an explicit deny within this rule. This explicitly listed disruptive action will override the default action of pass (within anomaly mode)and block the transaction. If you would like a different action to occur you would set it within the two BLOCKING-EVALUATION files. 
 
 Pros and Cons of Anomaly Scoring Detection Mode
 -----------------------------------------------
