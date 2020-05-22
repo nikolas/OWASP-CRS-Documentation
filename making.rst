@@ -2,7 +2,7 @@
 Making Rules
 =====================
 
-The Basic Synatax
+The Basic Syntax
 =================
 
 A `SecRule <https://github.com/SpiderLabs/ModSecurity/wiki/Reference-Manual#SecRule>`_  is a directive like any other understood by ModSecurity. The difference is that this directive is way more powerful in what it is capable of representing. Generally, a SecRule is made up of 4 parts:
